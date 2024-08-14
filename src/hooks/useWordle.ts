@@ -10,7 +10,29 @@ export const useWordle = ({ word }: useWordleProps) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
   //new guess - match the guessed words letter to show us green yellow or grey
-  const addNewGuess = () => {};
+  const addNewGuess = (
+    formatGuess: {
+      key: string;
+      color: string;
+    }[],
+  ) => {
+    console.log("I am from the add new guess function");
+    if (currentGuess === word) {
+      setIsCorrect(true);
+    }
+    setGuesses((currentState) => {
+      let newGuesses = [...currentState];
+      newGuesses[turn] = formatGuess;
+      return newGuesses;
+    });
+    setHistory((currentState) => {
+      return [...currentState, currentGuess];
+    });
+    setTurn((currentState) => {
+      return currentState + 1;
+    });
+    setCurrentGuess("");
+  };
   //formatted guess, and add to history of guesses
   const formatGuess = () => {
     let solutionArray = [...word];
@@ -37,6 +59,7 @@ export const useWordle = ({ word }: useWordleProps) => {
   //handle the submit part
   const handleKeyUp = (e: any) => {
     const key = e.key;
+    console.log("value of key", key);
     if (key === "Enter") {
       //turn less than 5, do not allow duplicate, check if length is 5
       if (turn > 5) {
@@ -52,16 +75,19 @@ export const useWordle = ({ word }: useWordleProps) => {
         return;
       }
       const formattedGuess = formatGuess();
+      addNewGuess(formattedGuess);
       console.log(formattedGuess);
     }
     if (key === "Backspace") {
       setCurrentGuess(currentGuess.slice(0, -1));
       return;
     }
-    if (/^[a-zA-Z]*$/.test(key)) {
+    if (/^[A-Za-z]$/.test(key)) {
+      console.log("value of key", key);
+
       if (currentGuess.length < 5)
         setCurrentGuess((currentGuess) => currentGuess + key);
-    }
+    } else return;
     console.log(currentGuess);
   };
 

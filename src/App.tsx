@@ -10,7 +10,7 @@ export default function App() {
   }, []);
   return (
     <main>
-      <div className="flex b-2 p-2">{word && <Wordle word={word} />}</div>
+      <div >{word && <Wordle word={word} />}</div>
     </main>
   );
 }
