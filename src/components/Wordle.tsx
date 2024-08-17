@@ -1,20 +1,22 @@
 import { useEffect } from "react";
 import { guessType, useWordle, useWordleProps } from "../hooks/useWordle";
 import { Grid } from "./Grid";
+import Keypad from "./Keypad";
 
 export const Wordle = ({ word }: useWordleProps) => {
-  const { currentGuess, handleKeyUp, guesses, isCorrect, turn } = useWordle({
-    word: word,
-  });
+  const { currentGuess, handleKeyUp, guesses, isCorrect, turn, usedKeys } =
+    useWordle({
+      word: word,
+    });
 
   useEffect(() => {
     window.addEventListener("keyup", handleKeyUp);
     return () => window.removeEventListener("keyup", handleKeyUp);
   }, [handleKeyUp]);
   useEffect(() => {
-    console.log(guesses, turn, isCorrect);
+  //console.log(guesses, turn, isCorrect);
   }, [guesses, turn, isCorrect]);
-  console.log("wordle component", guesses);
+  //console.log("wordle component", guesses);
   return (
     <>
       <div>The solution is = {word}</div>
@@ -25,6 +27,7 @@ export const Wordle = ({ word }: useWordleProps) => {
         isCorrect={isCorrect}
         turn={turn}
       />
+      <Keypad usedKeys={usedKeys} />
     </>
   );
 };

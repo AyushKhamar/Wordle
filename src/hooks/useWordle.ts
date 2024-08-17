@@ -6,13 +6,19 @@ export interface guessType {
   key: string;
   color: string;
 }
+export interface keyType {
+  [key: string]: string;
+}
+
 export const useWordle = ({ word }: useWordleProps) => {
   const [turn, setTurn] = useState(0);
   const [currentGuess, setCurrentGuess] = useState("");
   const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
   const [history, setHistory] = useState<string[]>([]); // each guess is a string
   const [isCorrect, setIsCorrect] = useState(false);
-  const [usedKeys, setUsedKeys] = useState({}); // {a: 'grey', b: 'green', c: 'yellow'} etc
+  const [usedKeys, setUsedKeys] = useState<Map<string, string>>(
+    new Map<string, string>(),
+  ); // {a: 'grey', b: 'green', c: 'yellow'} etc
   //new guess - match the guessed words letter to show us green yellow or grey
   const addNewGuess = (formatGuess: guessType[]) => {
     //console.log("I am from the add new guess function");
@@ -30,25 +36,50 @@ export const useWordle = ({ word }: useWordleProps) => {
     setTurn((currentState) => {
       return currentState + 1;
     });
+    setUsedKeys((prevUsedKeys) => {
+      const newUsedKeys = new Map(prevUsedKeys);
+      formatGuess.forEach((l) => {
+        const currentColor = newUsedKeys.get(l.key);
+
+        if (l.color === "#C2E812") {
+          newUsedKeys.set(l.key, "#C2E812");
+          return;
+        }
+        if (l.color === "#AEC5EB" && currentColor !== "#C2E812") {
+          newUsedKeys.set(l.key, "#AEC5EB");
+          return;
+        }
+        if (
+          l.color === "#E55381" &&
+          currentColor !== ("#C2E812" || "#AEC5EB")
+        ) {
+          newUsedKeys.set(l.key, "#E55381");
+          return;
+        }
+      });
+
+      console.log(newUsedKeys);
+      return newUsedKeys;
+    });
     setCurrentGuess("");
   };
   //formatted guess, and add to history of guesses
   const formatGuess = () => {
     let solutionArray = [...word];
     let formattedGuess = [...currentGuess].map((letter) => {
-      return { key: letter, color: "grey" };
+      return { key: letter, color: "#E55381" };
     });
     //find green colors
     for (let i = 0; i < solutionArray.length; i++)
       if (solutionArray[i] === formattedGuess[i].key)
-        (formattedGuess[i].color = "green"), (solutionArray[i] = "");
+        (formattedGuess[i].color = "#C2E812"), (solutionArray[i] = "");
     //find yellow colors
     for (let i = 0; i < formattedGuess.length; i++) {
       if (
         solutionArray.includes(formattedGuess[i].key) &&
-        formattedGuess[i].color !== "green"
+        formattedGuess[i].color !== "#C2E812"
       ) {
-        formattedGuess[i].color = "yellow";
+        formattedGuess[i].color = "#AEC5EB";
         solutionArray[solutionArray.indexOf(formattedGuess[i].key)] = "";
       }
     }
@@ -92,5 +123,5 @@ export const useWordle = ({ word }: useWordleProps) => {
     //console.log(currentGuess);
   };
 
-  return { turn, currentGuess, guesses, isCorrect, handleKeyUp };
+  return { turn, currentGuess, guesses, isCorrect, handleKeyUp, usedKeys };
 };

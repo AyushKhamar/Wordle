@@ -10,8 +10,9 @@ export default function App() {
     setWord(randomWord);
   }, []);
   return (
-    <main>
+    <main style={{ backgroundColor: "#373F51", color: "white" }}>
       <div>{word && <Wordle word={word} />}</div>
+      
     </main>
   );
 }

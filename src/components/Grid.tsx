@@ -11,6 +11,14 @@ export const Grid = ({ turn, currentGuess, guesses, isCorrect }: GridProps) => {
   return (
     <div className="flex items-center justify-center flex-col">
       {guesses.map((item, index) => {
+        if (index === turn)
+          return (
+            <Row
+              key={index}
+              guess={item as guessType[]}
+              currentGuess={currentGuess}
+            />
+          );
         return <Row key={index} guess={item as guessType[]} />;
       })}
     </div>
