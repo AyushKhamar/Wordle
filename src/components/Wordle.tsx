@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useWordle, useWordleProps } from "../hooks/useWordle";
-import { Grid } from "./grid";
+import { guessType, useWordle, useWordleProps } from "../hooks/useWordle";
+import { Grid } from "./Grid";
 
 export const Wordle = ({ word }: useWordleProps) => {
   const { currentGuess, handleKeyUp, guesses, isCorrect, turn } = useWordle({
@@ -14,6 +14,7 @@ export const Wordle = ({ word }: useWordleProps) => {
   useEffect(() => {
     console.log(guesses, turn, isCorrect);
   }, [guesses, turn, isCorrect]);
+  console.log("wordle component", guesses);
   return (
     <>
       <div>The solution is = {word}</div>

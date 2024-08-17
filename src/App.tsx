@@ -5,12 +5,13 @@ import { Wordle } from "./components/Wordle";
 export default function App() {
   const [word, setWord] = useState<string>("ayush");
   useEffect(() => {
-    const randomWord = data[Math.floor(Math.random() * data.length)];
+    const randomWord =
+      data[Math.floor(Math.random() * data.length)].toLocaleUpperCase();
     setWord(randomWord);
   }, []);
   return (
     <main>
-      <div >{word && <Wordle word={word} />}</div>
+      <div>{word && <Wordle word={word} />}</div>
     </main>
   );
 }

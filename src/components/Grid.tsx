@@ -1,3 +1,4 @@
+import { guessType } from "../hooks/useWordle";
 import { Row } from "./Row";
 
 export interface GridProps {
@@ -8,9 +9,9 @@ export interface GridProps {
 }
 export const Grid = ({ turn, currentGuess, guesses, isCorrect }: GridProps) => {
   return (
-    <div>
+    <div className="flex items-center justify-center flex-col">
       {guesses.map((item, index) => {
-        return <Row key={index} guesses={guesses}/>;
+        return <Row key={index} guess={item as guessType[]} />;
       })}
     </div>
   );
