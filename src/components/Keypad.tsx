@@ -5,6 +5,7 @@ export interface KeypadProps {
   usedKeys: Map<string, string>;
 }
 export default function Keypad({ usedKeys }: KeypadProps) {
+  /* tslint:disable:no-unused-variable */
   const [letters, setLetters] = useState(listOfLetters);
 
   return (
