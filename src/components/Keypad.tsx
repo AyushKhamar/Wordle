@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { letters as listOfLetters } from "../../data";
+import { letters as listOfLetters } from "../utils/data";
 
 export interface KeypadProps {
   usedKeys: Map<string, string>;

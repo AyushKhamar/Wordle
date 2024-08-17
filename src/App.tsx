@@ -1,5 +1,5 @@
 import "./App.css";
-import { data } from "../data";
+import { data } from "./utils/data";
 import { useEffect, useState } from "react";
 import { Wordle } from "./components/Wordle";
 export default function App() {

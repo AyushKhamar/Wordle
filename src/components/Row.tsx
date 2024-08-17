@@ -1,6 +1,7 @@
 import { guessType } from "../hooks/useWordle";
 import { motion } from "framer-motion";
-import { animationStyle } from "./utils";
+import { animationStyle } from "../utils/utils";
+
 
 export interface RowProps {
   guess?: guessType[];
